@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <title>Poseidon Verktyg</title>
+    <script>
+      function calcPertinax() {
+        
+        // Ändra det här värdet om det ändras på maskinen
+        const pertinaxMax = 31000;
+        
+        var pertinaxCyclesNow = document.getElementById("pertinaxCyclesNowInput").value;
+        
+        // Räkna ut hur många slag det finns kvar på pertinax och hur många sekunder det blir
+        var pertinaxLeft = pertinaxMax - pertinaxCyclesNow;
+        var pertinaxLeftSec = pertinaxLeft * 6;
+
+        //Räkna ut hur många minuter pertinax har kvar
+        var pertinaxLeftMin = pertinaxLeftSec / 60;
+
+        // Räkna ut hur många timmar pertinax har kvar
+        var pertinaxLeftHour = pertinaxLeftMin / 60;
+        // alert(pertinaxLeftHour);
+        
+        // Runda av antal timmar, till hela timmar
+        pertinaxLeftHour = Math.floor(pertinaxLeftHour);
+        // alert(pertinaxLeftHour);
+
+        // Bortse från antal timmar och räkna bara ut hur många minter som är kvar
+        pertinaxLeftMin = pertinaxLeftMin - (pertinaxLeftHour * 60);
+        // alert(pertinaxLeftMin);
+
+        timeNow = Date.now();
+        
+        // Räkna vid vilken tid bytet kommer ske, resultatet är i millisekunder
+        const pertinaxChangeTime = new Date((pertinaxLeftSec * 1000) + timeNow);
+        
+        // Förvandla millisekunderna till läsligt tidsformat
+        let pertinaxChangeTimeUTC = pertinaxChangeTime.toLocaleString('sv-SE');
+               
+        // Printa resultatet på websidan
+        document.getElementById("pertinaxTimeLeft").innerHTML = "Det är minst " + pertinaxLeftHour + " timmar och " + pertinaxLeftMin + " minuter kvar till pertinaxbyte.<br>" + "Det innebär att det blir pertinaxbyte någon gång efter " + pertinaxChangeTimeUTC;
+        
+      }
+
+      function calcLCTime()
+      {
+        // Hämta data från användare från forumläret
+        var numLBLeft = document.getElementById("lbLeft").value;
+        var machineSpeed = document.getElementById("speed").value;
+                
+        // Om det finns kommatecken, konvertera dom till punkter
+        numLBLeft = numLBLeft.replace(",",".");
+
+        // Räkna ut hur många produkter det är kvar att köra
+        var productsLeft = numLBLeft * 1260;
+
+        // Om det finns kommatecken, konvertera dom till punkter
+        machineSpeed = machineSpeed.replace(",",".");
+
+        // Räkna ut hur fort det går i minuten
+        var machineSpeedMin = machineSpeed / 60;
+
+        // Räkna ut hur många minuter det är kvar till LC
+        var minToLC = productsLeft / machineSpeedMin;
+
+        // Räkna ut vid vilken tid det blir LC, resultat i millisekunder
+        var timeNow = Date.now();
+        const whenLC = new Date((minToLC * 60000) + timeNow);
+
+        // Förvandla millisekunderna till läsligt tidsformat
+        let whenLCTimeUTC = whenLC.toLocaleString('sv-SE');
+        
+        // Räkna ut hur många timmar det är kvar till LC
+        var hoursToLC = minToLC / 60;
+        
+        // Runda av antal timmar, till hela timmar
+        hoursToLC = Math.floor(hoursToLC);
+
+        // Bortse från antal timmar och räkna bara ut hur många minter som är kvar
+        minToLC = minToLC - (hoursToLC * 60);
+        
+        document.getElementById("timeToLC").innerHTML = "Det är " + hoursToLC + " timmar och " + minToLC + " minuter kvar till LC<br>Det innebär att det blir LC någon gång efter<b> " + whenLCTimeUTC + "</b>";
+      }
+
+    </script>
+  </head>
+  <body>
+    <h1>Påseidon Verktyg</h1>
+    <article>
+      <p><b>OBS!</b><br>Notera att detta är ett hemmabygge och kanske inte räknar rätt.😉</p></article>
+    <article>
+    <p><b>Tid kvar tills Pertinaxbyte</b><br>
+    Formeln räknar med att pertinaxbytet sker när WPE nått 31000 cykler och att den räknar upp en cykel var 6e sekund.</p>
+      <b>Hur många cykler ligger Pertinax på nu?</b>
+      <form id="pertinaxCyclesNow"">
+        <input type="number" id="pertinaxCyclesNowInput" name="pertinaxCyclesNowInput"><br>
+        <input type="button" onclick="calcPertinax()" value="Räkna ut">
+      </form>
+      <p id="pertinaxTimeLeft"></p>
+      </article>
+
+      <article>
+      <b>Tid kvar till LC</b><br>
+      <form id="timeToLCInput">
+        <p></p><b>Hur många lastbärare är det kvar att köra?</b><br>
+          <input type="text" id="lbLeft" name="lbLeft"><br>
+        </p>
+        <p>
+          <b>I vilken hastighet går maskinen enligt Axxos?</b><br>
+          <p>Antal produkter i timman, t.ex. 2320</p>
+          <input type="number" id="speed" name="speed"><br>
+        </p>
+        <input type="button" onclick="calcLCTime()" value="Räkna ut">
+      </form>
+      <p id="timeToLC"></p>
+      </article>
+  </body>
+</html>

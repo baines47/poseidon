@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <title>Poseidon Verktyg</title>
-    <script>
+
+     <script>
       function calcPertinax() {
         
         // Ändra det här värdet om det ändras på maskinen
@@ -81,19 +82,54 @@
 
         // Bortse från antal timmar och räkna bara ut hur många minter som är kvar
         minToLC = minToLC - (hoursToLC * 60);
+
+        // Runda av antalet minuter så det ser snyggare ut
+        minToLC = Math.round(minToLC);
         
         document.getElementById("timeToLC").innerHTML = "Det är " + hoursToLC + " timmar och " + minToLC + " minuter kvar till LC<br>Det innebär att det blir LC någon gång efter<b> " + whenLCTimeUTC + "</b>";
+      }
+
+      function calcSprang()
+      {
+        var aOrig = document.getElementById("sprangAInput").value;
+        var bOrig = document.getElementById("sprangBInput").value;
+        var cOrig = document.getElementById("sprangCInput").value;
+        var dOrig = document.getElementById("sprangDInput").value;
+
+        // Om det finns kommatecken, konvertera dom till punkter
+        aOrig = aOrig.replace(",",".");
+        bOrig = bOrig.replace(",",".");
+        cOrig = cOrig.replace(",",".");
+        dOrig = dOrig.replace(",",".");
+
+        aOrig = aOrig - 4.5;
+        bOrig = bOrig - 4.5;
+        cOrig = cOrig - 4.5;
+        dOrig = dOrig - 4.5;
+        
+       
+        document.getElementById("sprangRes").innerHTML = "<b>Resultat</b><br>" + "<b>A: </b>" + aOrig + "<br>" + "<b>B: </b>" + bOrig + "<br>" + "<b>C: </b>" + cOrig + "<br>" + "<b>D: </b>" + dOrig;
+
       }
 
     </script>
   </head>
   <body>
-    <h1>Påseidon Verktyg</h1>
-    <article>
-      <p><b>OBS!</b><br>Notera att detta är ett hemmabygge och kanske inte räknar rätt.😉</p></article>
-    <article>
-    <p><b>Tid kvar tills Pertinaxbyte</b><br>
-    Formeln räknar med att pertinaxbytet sker när WPE nått 31000 cykler och att den räknar upp en cykel var 6e sekund.</p>
+    <header>
+      <h1>Poseidon Verktyg</h1>
+      <nav>
+        <a href="#pertinax">Pertinaxbyte</a>
+        <a href="#lc">Tid till LC</a>
+        <a href="#sprangtest">Sprängtest</a>
+      </nav>
+    </header>
+
+
+    <p><b>OBS!</b><br>Notera att detta är ett hemmabygge och kanske inte räknar rätt.😉</p>
+    
+    <article id="pertinax">
+      <h4>Tid kvar tills Pertinaxbyte</h4>
+      <aside><p>Formeln räknar med att pertinaxbytet sker när WPE nått 31000 cykler och att den räknar upp en cykel var 6e sekund.</p></aside>
       <b>Hur många cykler ligger Pertinax på nu?</b>
       <form id="pertinaxCyclesNow"">
         <input type="number" id="pertinaxCyclesNowInput" name="pertinaxCyclesNowInput"><br>
@@ -102,20 +138,30 @@
       <p id="pertinaxTimeLeft"></p>
       </article>
 
-      <article>
-      <b>Tid kvar till LC</b><br>
-      <form id="timeToLCInput">
-        <p></p><b>Hur många lastbärare är det kvar att köra?</b><br>
+      <article id="lc">
+        <h4>Tid kvar till LC</h4>
+        <form id="timeToLCInput">
+          <b>Hur många lastbärare är det kvar att köra?</b><br>
           <input type="text" id="lbLeft" name="lbLeft"><br>
-        </p>
-        <p>
-          <b>I vilken hastighet går maskinen enligt Axxos?</b><br>
-          <p>Antal produkter i timman, t.ex. 2320</p>
+          <br><b>I vilken hastighet går maskinen enligt Axxos?</b><br>
+          Antal produkter i timman, t.ex. 2320<br>
           <input type="number" id="speed" name="speed"><br>
-        </p>
-        <input type="button" onclick="calcLCTime()" value="Räkna ut">
+          <input type="button" onclick="calcLCTime()" value="Räkna ut">
       </form>
       <p id="timeToLC"></p>
-      </article>
+    </article>
+
+    <article id="sprangtest">
+      
+      <h4>Sprängtest</h4>
+      <aside><p id="sprangRes"><b>Resultat</b></p></aside>
+      <form id="sprang">
+        A: <input type="text" id="sprangAInput" name="sprangAInput"><br>
+        B: <input type="text" id="sprangBInput" name="sprangBInput"><br>
+        C: <input type="text" id="sprangCInput" name="sprangCInput"><br>
+        D: <input type="text" id="sprangDInput" name="sprangDInput"><br>
+        <input type="button" onclick="calcSprang()" value="Räkna ut">
+    </form>
+    </article>
   </body>
 </html>

@@ -7,6 +7,9 @@
     <title>Poseidon Verktyg</title>
 
      <script>
+    // Poseidon Verktyg 1.1
+    // Mindre korrigeringar, antal decimaler på hur lång tid det är kvar till Petinaxbyte
+
       function calcPertinax() {
         
         // Ändra det här värdet om det ändras på maskinen
@@ -40,9 +43,12 @@
         
         // Förvandla millisekunderna till läsligt tidsformat
         let pertinaxChangeTimeUTC = pertinaxChangeTime.toLocaleString('sv-SE');
+
+        // Runda av antal minuter kvar
+        pertinaxLeftMin = Math.round(pertinaxLeftMin);
                
         // Printa resultatet på websidan
-        document.getElementById("pertinaxTimeLeft").innerHTML = "Det är minst " + pertinaxLeftHour + " timmar och " + pertinaxLeftMin + " minuter kvar till pertinaxbyte.<br>" + "Det innebär att det blir pertinaxbyte någon gång efter " + pertinaxChangeTimeUTC;
+        document.getElementById("pertinaxTimeLeft").innerHTML = "Det är minst " + pertinaxLeftHour + " timmar och " + pertinaxLeftMin + " minuter kvar till pertinaxbyte.<br>" + "Det innebär att det blir pertinaxbyte någon gång efter <b>" + pertinaxChangeTimeUTC + "</b>";
         
       }
 

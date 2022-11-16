@@ -9,5 +9,5 @@ Upptäcker du några fel eller buggar så är kan du skicka iväg ett mail till 
 ## version 1.1
 Changes
 - Ändrat så att antal minuter kvar till Pertinaxbyte inte visar några decimaler
-- Ändrat till fetstil på klockslag för Pertinaxbyte så det LC mer
+- Ändrat till fetstil på klockslag för Pertinaxbyte så det liknar LC mer
 - Lagt till ny länk "Om" till denna README
